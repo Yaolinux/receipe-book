@@ -1,0 +1,26 @@
+NAME=nano
+VERSION=4.8
+URL=(https://www.nano-editor.org/dist/v4/nano-4.8.tar.xz)
+TAR="nano-4.8.tar.xz"
+
+DEPENDS=
+
+do_prepare() {
+./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --enable-utf8     \
+            --docdir=/usr/share/doc/nano-4.8
+}
+
+do_build () {
+make
+}
+
+do_check() { :
+
+}
+
+do_install() {
+make DESTDIR=$PACKDIR install
+install -v -m644 doc/{nano.html,sample.nanorc} $PACKDIR/usr/share/doc/nano-4.8
+}
