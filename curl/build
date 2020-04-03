@@ -1,0 +1,25 @@
+NAME=curl
+VERSION=7.68.0
+URL=(https://curl.haxx.se/download/curl-$VERSION.tar.xz)
+
+DEPENDS=make-ca
+
+do_prepare() {
+cd $NAME-$VERSION
+./configure --prefix=/usr                           \
+            --disable-static                        \
+            --enable-threaded-resolver              \
+            --with-ca-path=/etc/ssl/certs
+}
+
+do_build () {
+make
+}
+
+do_check() { :
+
+}
+
+do_install() {
+make DESTDIR=$PACKDIR install
+}

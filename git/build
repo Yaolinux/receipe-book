@@ -1,0 +1,24 @@
+NAME=git
+VERSION=2.26.0
+URL=(https://mirrors.edge.kernel.org/pub/software/scm/git/git-$VERSION.tar.xz)
+
+DEPENDS=
+
+do_prepare() {
+cd $NAME-$VERSION
+./configure --prefix=/usr \
+            --libexecdir=/usr/lib \
+            --with-gitconfig=/etc/gitconfig
+}
+
+do_build () {
+make
+}
+
+do_check() { :
+
+}
+
+do_install() {
+make DESTDIR=$PACKDIR install
+}

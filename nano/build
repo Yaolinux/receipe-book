@@ -1,11 +1,13 @@
 NAME=nano
 VERSION=4.8
-URL=(https://www.nano-editor.org/dist/v4/nano-4.8.tar.xz)
-TAR="nano-4.8.tar.xz"
+URL=(https://www.nano-editor.org/dist/v4/nano-4.8.tar.xz
+	test.patch)
 
 DEPENDS=
 
 do_prepare() {
+cat test.patch
+cd $NAME-$VERSION
 ./configure --prefix=/usr     \
             --sysconfdir=/etc \
             --enable-utf8     \

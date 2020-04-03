@@ -1,0 +1,33 @@
+NAME=fakeroot
+VERSION=1.24
+URL=(https://deb.debian.org/debian/pool/main/f/${NAME}/${NAME}_${VERSION}.orig.tar.gz
+	silence-dlerror.patch)
+
+DEPENDS=
+
+do_prepare() {
+	cd $NAME-$VERSION
+	patch -p1 -i ../silence-dlerror.patch
+
+	./bootstrap
+
+	./configure --prefix=/usr \
+    		    --libdir=/usr/lib/libfakeroot \
+    		    --disable-static \
+    		    --with-ipc=sysv
+
+}
+
+do_build () {
+	make
+}
+
+do_check() { :
+
+}
+
+do_install() {
+	make DESTDIR=$PACKDIR install
+	install -dm755 $PACKDIR/etc/ld.so.conf.d/
+	echo '/usr/lib/libfakeroot' > $PACKDIR/etc/ld.so.conf.d/fakeroot.conf
+}

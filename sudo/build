@@ -1,0 +1,32 @@
+NAME=sudo
+VERSION=1.8.31
+URL=(http://www.sudo.ws/dist/sudo-$VERSION.tar.gz)
+
+do_prepare() {
+cd $NAME-$VERSION
+
+sed -e '/^pre-install:/{N;s@;@ -a -r $(sudoersdir)/sudoers;@}' \
+    -i plugins/sudoers/Makefile.in
+
+./configure --prefix=/usr              \
+            --libexecdir=/usr/lib      \
+            --with-secure-path         \
+            --with-all-insults         \
+            --with-env-editor          \
+            --docdir=/usr/share/doc/sudo-1.8.31 \
+            --with-passprompt="[sudo] password for %p: "
+
+}
+
+do_build () {
+make
+}
+
+do_check() { :
+
+}
+
+do_install() {
+make DESTDIR=$PACKDIR install
+ln -sfv libsudo_util.so.0.0.0 $PACKDIR/usr/lib/sudo/libsudo_util.so.0
+}
