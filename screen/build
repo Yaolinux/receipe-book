@@ -1,0 +1,27 @@
+NAME=screen
+VERSION=4.8.0
+URL=(https://ftp.gnu.org/gnu/screen/screen-$VERSION.tar.gz)
+
+DEPENDS=
+
+do_prepare() {
+cd $NAME-$VERSION
+./configure --prefix=/usr                     \
+            --infodir=/usr/share/info         \
+            --mandir=/usr/share/man           \
+            --with-socket-dir=/run/screen     \
+            --with-pty-group=5                \
+            --with-sys-screenrc=/etc/screenrc
+
+sed -i -e "s%/usr/local/etc/screenrc%/etc/screenrc%" {etc,doc}/*
+}
+
+do_build () {
+make
+}
+
+do_install() {
+make DESTDIR=$PACKDIR install
+mkdir -pv $PACKDIR/etc
+install -m 644 etc/etcscreenrc $PACKDIR/etc/screenrc
+}
