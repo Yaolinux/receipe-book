@@ -1,0 +1,15 @@
+NAME=tree
+VERSION=1.8.0
+URL=(http://mama.indstate.edu/users/ice/tree/src/tree-$VERSION.tgz
+	.install)
+
+DEPENDS=
+
+do_build () {
+cd $NAME-$VERSION
+make
+}
+
+do_install() {
+make prefix=$PACKDIR/usr install
+}
