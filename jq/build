@@ -15,10 +15,6 @@ do_build () {
 make
 }
 
-do_check() { :
-
-}
-
 do_install() {
 make DESTDIR=$PACKDIR install
 }
